@@ -1,8 +1,9 @@
 package domain
 
 import (
-	"errors"
 	"fmt"
+	"github.com/tv2169145/golang-microservices/mvc/untils"
+	"net/http"
 )
 
 var users = map[int64]*User{
@@ -10,9 +11,13 @@ var users = map[int64]*User{
 
 }
 
-func GetUser(userId int64) (*User, error) {
+func GetUser(userId int64) (*User, *untils.ApplicationError) {
 	if user := users[userId]; user != nil {
 		return user, nil
 	}
-	return nil, errors.New(fmt.Sprintf("user %v is not found", userId))
+	return nil, &untils.ApplicationError{
+		Message: fmt.Sprintf("user %v is not found", userId),
+		StatusCode: http.StatusNotFound,
+		Code: "not found",
+	}
 }
