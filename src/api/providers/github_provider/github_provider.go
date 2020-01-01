@@ -33,6 +33,7 @@ func CreateRepo(token string, request github.CreateRepoRequest) (*github.CreateR
 		}
 	}
 	jsonBytes, err := ioutil.ReadAll(response.Body)
+
 	if err != nil {
 		return nil, &github.GithubErrorResponse{
 			StatusCode: http.StatusInternalServerError,
@@ -54,6 +55,7 @@ func CreateRepo(token string, request github.CreateRepoRequest) (*github.CreateR
 			}
 		}
 		errResponse.StatusCode = response.StatusCode
+
 		return nil, &errResponse
 	}
 
