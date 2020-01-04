@@ -3,11 +3,11 @@ package repositories
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/tv2169145/golang-microservices/src/api/clients/restclient"
 	"github.com/tv2169145/golang-microservices/src/api/domain/repositories"
 	"github.com/tv2169145/golang-microservices/src/api/utils/errors"
+	"github.com/tv2169145/golang-microservices/src/api/utils/test_utils"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -23,13 +23,12 @@ func TestMain(m *testing.M) {
 
 func TestCreateRepoInvalidJsonRequest(t *testing.T) {
 	response := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(response)
 	request, _ := http.NewRequest(
 		http.MethodPost,
 		"/repositories",
 		strings.NewReader(``),
-		)
-	c.Request = request
+	)
+	c := test_utils.GetMockedContext(request, response)
 	CreateRepo(c)
 	assert.EqualValues(t, http.StatusBadRequest, response.Code)
 	fmt.Println(response.Body.String())
@@ -48,8 +47,7 @@ func TestCreateRepoErrorFromGithub(t *testing.T) {
 		"/repositories",
 		strings.NewReader(`{"name": "controller testing"}`),
 		)
-	c, _ := gin.CreateTestContext(response)
-	c.Request = request
+	c := test_utils.GetMockedContext(request, response)
 	restclient.StartMockups()
 	restclient.AddMockup(restclient.Mock{
 		Url: "https://api.github.com/user/repos",
@@ -72,12 +70,12 @@ func TestCreateRepoErrorFromGithub(t *testing.T) {
 
 func TestCreateRepoNoError(t *testing.T) {
 	response := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(response)
 	request, _ := http.NewRequest(
 		http.MethodPost,
 		"/repositories",
 		strings.NewReader(`{"name": "controller testing"}`),
-		)
+	)
+	c := test_utils.GetMockedContext(request, response)
 	c.Request = request
 	restclient.AddMockup(restclient.Mock{
 		Url: "https://api.github.com/user/repos",
