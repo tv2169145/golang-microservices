@@ -23,7 +23,7 @@ func TestMain(m *testing.M) {
 
 func TestCreateRepoInvalidJsonRequest(t *testing.T) {
 	response := httptest.NewRecorder()
-	request, _ := http.NewRequest(
+	request := httptest.NewRequest(
 		http.MethodPost,
 		"/repositories",
 		strings.NewReader(``),
@@ -42,7 +42,7 @@ func TestCreateRepoInvalidJsonRequest(t *testing.T) {
 
 func TestCreateRepoErrorFromGithub(t *testing.T) {
 	response := httptest.NewRecorder()
-	request, _ := http.NewRequest(
+	request := httptest.NewRequest(
 		http.MethodPost,
 		"/repositories",
 		strings.NewReader(`{"name": "controller testing"}`),
@@ -70,7 +70,7 @@ func TestCreateRepoErrorFromGithub(t *testing.T) {
 
 func TestCreateRepoNoError(t *testing.T) {
 	response := httptest.NewRecorder()
-	request, _ := http.NewRequest(
+	request := httptest.NewRequest(
 		http.MethodPost,
 		"/repositories",
 		strings.NewReader(`{"name": "controller testing"}`),
