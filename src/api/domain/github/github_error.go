@@ -22,6 +22,11 @@ type GithubErrorResponse struct {
 	DocumentationUrl string        `json:"documentation_url"`
 }
 
+// 讓 GithubErrorResponse 實作 error interface
+func(r *GithubErrorResponse) Error() string {
+	return r.Message
+}
+
 type GithubError struct {
 	Resource string `json:"resource"`
 	Code     string `json:"code"`
