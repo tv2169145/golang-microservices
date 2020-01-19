@@ -46,8 +46,5 @@ func (s *oauthService) GetAccessToken(accessToken string) (*oauth.AccessToken, e
 	if err != nil {
 		return nil, err
 	}
-	if token.IsExpired() {
-		return nil, errors.NewNotFoundError("no access token maybe token is expired")
-	}
 	return token, err
 }
