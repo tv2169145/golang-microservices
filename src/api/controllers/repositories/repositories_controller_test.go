@@ -76,7 +76,6 @@ func TestCreateRepoNoError(t *testing.T) {
 		strings.NewReader(`{"name": "controller testing"}`),
 	)
 	c := test_utils.GetMockedContext(request, response)
-	c.Request = request
 	restclient.AddMockup(restclient.Mock{
 		Url: "https://api.github.com/user/repos",
 		HttpMethod: http.MethodPost,
