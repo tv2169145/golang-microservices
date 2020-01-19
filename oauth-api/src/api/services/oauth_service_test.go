@@ -25,6 +25,7 @@ func (s *oauthServiceMock) GetAccessToken(accessToken string) (*oauth.AccessToke
 }
 
 func TestOauthService_CreateAccessTokenInvalidRequest(t *testing.T) {
+	oauth.StopMock()
 	//service := new(oauthServiceMock)
 	request := oauth.AccessTokenRequest{
 		Username: "",
@@ -37,6 +38,7 @@ func TestOauthService_CreateAccessTokenInvalidRequest(t *testing.T) {
 }
 
 func TestOauthService_CreateAccessTokenNoFoundUser(t *testing.T) {
+	oauth.StopMock()
 	request := oauth.AccessTokenRequest{
 		Username: "ttt",
 		Password: "123",
@@ -60,6 +62,7 @@ func TestOauthService_CreateAccessTokenSaveError(t *testing.T) {
 }
 
 func TestOauthService_CreateAccessTokenSuccess(t *testing.T) {
+	oauth.StopMock()
 	request := oauth.AccessTokenRequest{
 		Username: "jimmy",
 		Password: "123",
@@ -71,6 +74,7 @@ func TestOauthService_CreateAccessTokenSuccess(t *testing.T) {
 }
 
 func TestOauthService_GetAccessTokenNoFoundToken(t *testing.T) {
+	oauth.StopMock()
 	accessToken := "URS_1234"
 	token, err := OauthService.GetAccessToken(accessToken)
 	assert.Nil(t, token)
@@ -79,6 +83,7 @@ func TestOauthService_GetAccessTokenNoFoundToken(t *testing.T) {
 }
 
 func TestOauthService_GetAccessTokenSuccess(t *testing.T) {
+	oauth.StopMock()
 	zone, _ := time.LoadLocation("Asia/Taipei")
 	token := oauth.AccessToken{
 		UserId: 123,
